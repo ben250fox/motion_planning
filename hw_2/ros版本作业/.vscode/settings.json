@@ -1,0 +1,4 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/src/grid_path_searcher",
+    "C_Cpp.errorSquiggles": "Disabled"
+}

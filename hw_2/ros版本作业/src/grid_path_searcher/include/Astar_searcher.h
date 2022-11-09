@@ -18,7 +18,7 @@ class AstarPathFinder
 		Eigen::Vector3i goalIdx;
 		int GLX_SIZE, GLY_SIZE, GLZ_SIZE;
 		int GLXYZ_SIZE, GLYZ_SIZE;
-
+		
 		double resolution, inv_resolution;
 		double gl_xl, gl_yl, gl_zl;
 		double gl_xu, gl_yu, gl_zu;
@@ -26,8 +26,10 @@ class AstarPathFinder
 		GridNodePtr terminatePtr;
 		std::multimap<double, GridNodePtr> openSet;
 
+		double getf(GridNodePtr node1, GridNodePtr node2);
 		double getHeu(GridNodePtr node1, GridNodePtr node2);
 		void AstarGetSucc(GridNodePtr currentPtr, std::vector<GridNodePtr> & neighborPtrSets, std::vector<double> & edgeCostSets);		
+		void SetGridNodeMap(GridNodePtr currentPtr);
 
     	bool isOccupied(const int & idx_x, const int & idx_y, const int & idx_z) const;
 		bool isOccupied(const Eigen::Vector3i & index) const;

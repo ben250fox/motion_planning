@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "ros版本作业"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.tcc": "cpp",
+			"bitset": "cpp",
+			"chrono": "cpp",
+			"complex": "cpp",
+			"functional": "cpp",
+			"ostream": "cpp"
+		}
+	}
+}
