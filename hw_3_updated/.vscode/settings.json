@@ -1,0 +1,3 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/HW C++/src/map_gen/map_generator"
+}

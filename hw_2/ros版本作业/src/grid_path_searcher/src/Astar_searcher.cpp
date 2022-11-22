@@ -164,11 +164,7 @@ inline void AstarPathFinder::AstarGetSucc(GridNodePtr currentPtr, vector<GridNod
                         neighborPtrSets.push_back(GridNodeMap[inde[0]][inde[1]][inde[2]]);
                         edgeCostSets.push_back(getf(GridNodeMap[inde[0]][inde[1]][inde[2]], currentPtr));
                     } 
-               
-                   
-                    
-                   
-                    
+
                 }
             }
     }
@@ -183,7 +179,7 @@ void AstarPathFinder::SetGridNodeMap(GridNodePtr currentPtr)
     j = currentPtr->index[1];
     k = currentPtr->index[2];   
     GridNodeMap[i][j][k] = currentPtr;
-    GridNodeMap[i][j][k]->id=-1;
+    GridNodeMap[i][j][k]->id=currentPtr->id;
 }
 
 double AstarPathFinder::getf(GridNodePtr node1, GridNodePtr node2)
@@ -196,7 +192,8 @@ double AstarPathFinder::getf(GridNodePtr node1, GridNodePtr node2)
     dz = abs(node1->coord(2,0)-node2->coord(2,0));
 
     heucost = sqrt(pow(dx,2)+pow(dy,2)+pow(dz,2));
-    heucost = 0;
+    // ROS_WARN("the cost of m to n  is %f",heucost);
+    //heucost = 0;
    return heucost;
 }
 
@@ -300,14 +297,14 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
        std::multimap<double, GridNodePtr>:: iterator it;
          for (it = openSet.begin(); it != openSet.end(); it++)
         {
-                // cout << (*it).first << endl;
+                // cout <<"the key value in openset is"<< (*it).first << endl;
                 // cout << (*it).second << endl;
                 if (it->first < min) min=it->first;
         }
         it=openSet.find(min);
         it->second->id=-1;
         currentPtr = it->second;
-        ROS_WARN("%f",currentPtr->fScore);
+        ROS_WARN("the erase value is %f",currentPtr->fScore);
         openSet.erase(it); //delete the minimum key value map
         SetGridNodeMap(currentPtr);
 
@@ -359,8 +356,10 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
                 */
                 
                 neighborPtr->gScore=edgeCostSets[i]+currentPtr->gScore;
+                // ROS_WARN("the first expand neighbor gcost is %f",neighborPtr->gScore);
                 neighborPtr->fScore = neighborPtr->gScore + getHeu(neighborPtr,  endPtr);
-                //ROS_WARN("%f",neighborPtr->fScore);
+                // ROS_WARN("first expand node fscore will be %f",neighborPtr->fScore);
+                 ROS_WARN("first expand node hscore will be %f",getHeu(neighborPtr,  endPtr));
                 neighborPtr->cameFrom=currentPtr;
                 neighborPtr->id = 1;
                 openSet.insert(make_pair(neighborPtr->fScore, neighborPtr));
@@ -388,7 +387,9 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
                     // it->second.cameFrom=currentPtr;
                     neighborPtr->fScore = fcost;
                     neighborPtr->gScore=edgeCostSets[i]+currentPtr->gScore;
-                    //ROS_WARN("%f",neighborPtr->fScore);
+                    // ROS_WARN("new %f",neighborPtr->fScore);
+                    // ROS_WARN("the new neighbor gcost is %f",neighborPtr->gScore);
+                    ROS_WARN("first expand node hscore will be %f",getHeu(neighborPtr,  endPtr));
                     neighborPtr->cameFrom = currentPtr;
                     
                     openSet.insert(make_pair(neighborPtr->fScore,neighborPtr));
@@ -405,7 +406,7 @@ void AstarPathFinder::AstarGraphSearch(Vector3d start_pt, Vector3d end_pt)
                 continue;
             }
 
-            SetGridNodeMap(neighborPtr);
+            SetGridNodeMap(neighborPtr);//将节点同步一下。
         }      
     }
     //if search fails
