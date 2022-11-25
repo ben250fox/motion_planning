@@ -1,3 +1,6 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/grid_path_searcher"
+    "cmake.sourceDirectory": "${workspaceFolder}/grid_path_searcher",
+    "files.associations": {
+        "cmath": "cpp"
+    }
 }
